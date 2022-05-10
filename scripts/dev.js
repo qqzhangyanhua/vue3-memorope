@@ -9,7 +9,7 @@ const targets = fs.readdirSync('packages').filter(f => {
     }
     return true
 });
-// console.log(targets)
+console.log(targets)
 async function build(source) {
     console.log('source', source)
     await execa('rollup', ['-c', '--environment', `TARGET:${source}`], {

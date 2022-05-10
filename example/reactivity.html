@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script src="../node_modules/@vue/reactivity/dist/reactivity.global.js"></script>
+    <script>
+      console.log("reactivity.global.js loaded", VueReactivity);
+      let { reactive, shallowReactive, readonly } = VueReactivity;
+      const obj = { obj: 1, name: { first: "John", last: "Doe" } };
+      //   let state = reactive(obj);
+      //   let state = shallowReactive(obj);
+      let state = readonly(obj);
+      state.obj = 2222;
+      console.log(state.name);
+    </script>
+  </body>
+</html>
