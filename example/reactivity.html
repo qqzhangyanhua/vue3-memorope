@@ -16,6 +16,7 @@
         obj: "我是对象",
         name: { first: "John", last: "Doe" },
         age: 30,
+        arr: [1],
       };
       let state = reactive(obj);
       //   let state = shallowReactive(obj);
@@ -28,7 +29,7 @@
         app.innerHTML = `<h1>111111${state.obj}</h1> age${state.age}`;
       });
       setTimeout(() => {
-        state.obj = "改变对象了 ";
+        state.arr.push(222);
       }, 100);
     </script>
   </body>

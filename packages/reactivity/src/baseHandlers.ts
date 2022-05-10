@@ -1,8 +1,15 @@
 // 事项响应式的主要get set
 // 是不是readonly
 
-import { extend, isObject } from "@vue/shared";
-import { track } from "./effect";
+import {
+  extend,
+  isArray,
+  isIntegerKey,
+  isObject,
+  hasOwnProperty,
+  hasChanges,
+} from "@vue/shared";
+import { track, trigger } from "./effect";
 import { TrackOpType } from "./operator";
 import { reactive, readonly } from "./reactive";
 
@@ -61,8 +68,21 @@ function createGetter(isReadonly = false, shallow = false) {
 }
 function createSetter(isShallow = false) {
   return function set(target: any, key: any, value) {
+    const oldValue = target[key];
+    let hadKey =
+      isArray(target) && isIntegerKey(key)
+        ? Number(key) < target.length
+        : hasOwnProperty(target, key);
+    if (!hadKey) {
+      // 新增
+      trigger(target, TrackOpType.ADD, key, value);
+    } else if (hasChanges(oldValue, value)) {
+      // 修改
+      trigger(target, TrackOpType.SET, key, value, oldValue);
+    }
     const res = Reflect.set(target, key, value);
     // 当数据更新 通知这里执行
+    // 区分是新增的还是修改的
     return res;
   };
 }

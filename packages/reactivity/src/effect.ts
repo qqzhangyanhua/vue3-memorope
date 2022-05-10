@@ -1,3 +1,6 @@
+import { isArray, isIntegerKey } from "@vue/shared";
+import { TrackOpType } from "./operator";
+
 export function effect(fn, options: any = {}) {
   const effect = createEffect(fn, options);
   if (!options.lazy) {
@@ -45,4 +48,43 @@ export function track(target: any, type, key: any) {
     dep.add(activeEffect);
   }
   console.log("track====", targetMap);
+}
+
+export function trigger(target, type, key?, newValue?, oldValue?) {
+  //   console.log("trigger====", target, type, key, newValue, oldValue);
+  const depsMap = targetMap.get(target);
+  if (!depsMap) return;
+  const effects = new Set();
+  const add = (effectToAdd) => {
+    if (effectToAdd) {
+      effectToAdd.forEach((effect) => {
+        effects.add(effect);
+      });
+    }
+  };
+  // 判断修改是是不是length
+  if (key === "length" && isArray(target)) {
+    // 如果对应的长度有更新
+    depsMap.forEach((dep) => {
+      if (key === "length" || key > newValue) {
+        add(dep);
+      }
+    });
+  } else {
+    //可能是对象
+    if (key !== undefined) {
+      //这里肯定是新增
+      add(depsMap.get(key));
+    }
+    //   多种场景下数组直接修改length
+    switch (type) {
+      case TrackOpType.ADD:
+        if (isArray(target) && isIntegerKey(key)) {
+          add(depsMap.get("length"));
+        }
+    }
+  }
+  effects.forEach((effect: any) => {
+    effect();
+  });
 }
