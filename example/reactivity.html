@@ -7,16 +7,29 @@
     <title>Document</title>
   </head>
   <body>
+    <div id="app"></div>
     <script src="../node_modules/@vue/reactivity/dist/reactivity.global.js"></script>
     <script>
       console.log("reactivity.global.js loaded", VueReactivity);
-      let { reactive, shallowReactive, readonly } = VueReactivity;
-      const obj = { obj: 1, name: { first: "John", last: "Doe" } };
-      //   let state = reactive(obj);
+      let { reactive, shallowReactive, readonly, effect } = VueReactivity;
+      const obj = {
+        obj: "我是对象",
+        name: { first: "John", last: "Doe" },
+        age: 30,
+      };
+      let state = reactive(obj);
       //   let state = shallowReactive(obj);
       //   let state = readonly(obj);
       //   state.obj = 2222;
-      console.log(state.name);
+      effect(() => {
+        app.innerHTML = `<h1>${state.obj}</h1> age${state.age}`;
+      });
+      effect(() => {
+        app.innerHTML = `<h1>111111${state.obj}</h1> age${state.age}`;
+      });
+      setTimeout(() => {
+        state.obj = "改变对象了 ";
+      }, 100);
     </script>
   </body>
 </html>

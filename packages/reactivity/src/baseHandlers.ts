@@ -2,6 +2,8 @@
 // 是不是readonly
 
 import { extend, isObject } from "@vue/shared";
+import { track } from "./effect";
+import { TrackOpType } from "./operator";
 import { reactive, readonly } from "./reactive";
 
 // 是不是深度的
@@ -43,6 +45,8 @@ function createGetter(isReadonly = false, shallow = false) {
     const res = Reflect.get(target, key);
     if (!isReadonly) {
       //   如果不是只读的需要收集依赖
+      console.log("执行effect");
+      track(target, TrackOpType.GET, key);
     }
     if (shallow) {
       return res;
@@ -58,6 +62,7 @@ function createGetter(isReadonly = false, shallow = false) {
 function createSetter(isShallow = false) {
   return function set(target: any, key: any, value) {
     const res = Reflect.set(target, key, value);
+    // 当数据更新 通知这里执行
     return res;
   };
 }
