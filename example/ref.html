@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="app"></div>
+    <script src="../node_modules/@vue/reactivity/dist/reactivity.global.js"></script>
+    <script>
+      console.log("reactivity.global.js loaded", VueReactivity);
+      let { reactive, shallowReactive, readonly, effect, ref } = VueReactivity;
+      const obj = {
+        obj: "我是对象",
+        name: { first: "John", last: "Doe" },
+        age: 30,
+        arr: [1],
+      };
+      let state = ref("name");
+      console.log(state);
+    </script>
+  </body>
+</html>

@@ -1,6 +1,7 @@
 import { isArray, isIntegerKey } from "@vue/shared";
 import { TrackOpType } from "./operator";
-
+// effect的所有属性都会收集effect
+// 当属性发生变化就会触发更新呢
 export function effect(fn, options: any = {}) {
   const effect = createEffect(fn, options);
   if (!options.lazy) {
