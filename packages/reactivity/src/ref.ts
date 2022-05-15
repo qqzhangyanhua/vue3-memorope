@@ -52,9 +52,9 @@ class ObjectRefImpl {
   public _v_isRef = true;
   constructor(public target: any, public key: any) {}
   get value() {
-    return this.target[this.key];
+    return this.target[this.key]; //如果原对象是响应式的就会触发依赖收集
   }
   set(newValue) {
-    this.target[this.key] = newValue;
+    this.target[this.key] = newValue; //如果元对象是响应式的就会触发更新
   }
 }
