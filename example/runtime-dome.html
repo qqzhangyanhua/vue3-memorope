@@ -16,6 +16,13 @@
         name: "app",
         setup() {
           console.log("setupzZ执行了");
+          return {
+            a: 1,
+            b: 1,
+          };
+        },
+        render(proxy) {
+          console.log("render函数", proxy);
         },
       };
       createApp(app).mount("#app");

@@ -1,4 +1,4 @@
-import { ShapeFlags } from "@vue/shared";
+import { isFunction, isObject, ShapeFlags } from "@vue/shared";
 import { publicInstanceHandler } from "./publicInstanceHandler";
 
 // 组件的所有方法
@@ -36,9 +36,38 @@ function setupStatefulComponent(instance: any) {
   instance.proxy = new Proxy(instance.ctx, publicInstanceHandler as any);
   let component = instance.type;
   let { setup } = component;
-  let setupContext = createContext(instance);
-  setup(instance.props, setupContext);
-  component.render(instance.proxy);
+
+  // 如果没有setup
+  if (setup) {
+    let setupContext = createContext(instance);
+    const setupResult = setup(instance.props, setupContext);
+    handelSetupResult(instance, setupResult);
+  } else {
+    // 完成组件的启动
+    finishComponentSetup(instance);
+  }
+  // component.render(instance.proxy);
+}
+function handelSetupResult(instance: any, result: any) {
+  if (isFunction(result)) {
+    // 如果setup是函数就把函数作为render
+    instance.render = result;
+  } else if (isObject(result)) {
+    // 如果是对象就将对象作为setupstate
+    instance.setupState = result;
+  }
+  finishComponentSetup(instance);
+}
+function finishComponentSetup(instance) {
+  let component = instance.type;
+  if (!instance.render) {
+    if (!component.render && component.template) {
+      // 如果没有render有的是template需要编译处理成render
+    }
+    // 对template进行处理产生render
+    instance.render = component.render;
+  }
+  console.log("setupsState=====", instance);
 }
 function createContext(instance: any) {
   return {

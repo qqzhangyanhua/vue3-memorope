@@ -4,7 +4,9 @@ import { ShapeFlags } from "@vue/shared";
 import { createAppAPI } from "./apiCreateApp";
 import { createComponentInstance, setupComponent } from "./component";
 export function createRenderer(renderOptions) {
-  const setupRenderEffect = (instance) => {};
+  const setupRenderEffect = (instance) => {
+    // 需要创建一个effect在effect里调用render,属性更新render会重新执行
+  };
   const mountComponent = (initVnode, container) => {
     // 挂载
     console.log("挂载的", initVnode, container);
