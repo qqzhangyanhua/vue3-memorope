@@ -1,6 +1,6 @@
 // 创建虚拟节点
 
-import { isObject, isString, ShapeFlags } from "@vue/shared";
+import { isArray, isObject, isString, ShapeFlags } from "@vue/shared";
 
 // h()
 export function createVnode(type: any, props, children = null) {
@@ -16,8 +16,23 @@ export function createVnode(type: any, props, children = null) {
     _v_isVnode: true,
     type,
     props,
+    children,
     el: null, //会与真实节点对应起来
     key: props && props.key, //diff算法会用到key
     shapeFlag,
+    component: null, //组件
   };
+  normalizeChildren(vnode, children);
+  return vnode;
+}
+function normalizeChildren(vnode, children: any) {
+  let type = 0;
+  if (children == null) {
+    //    没有孩子
+  } else if (isArray(children)) {
+    type = ShapeFlags.ARRAY_CHILDREN;
+  } else {
+    type = ShapeFlags.TEXT_CHILDREN;
+  }
+  vnode.shapeFlag |= type;
 }

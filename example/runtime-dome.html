@@ -14,6 +14,9 @@
       const { createApp } = VueRuntimeDom;
       let app = {
         name: "app",
+        setup() {
+          console.log("setupzZ执行了");
+        },
       };
       createApp(app).mount("#app");
     </script>
