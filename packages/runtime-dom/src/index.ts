@@ -1,6 +1,6 @@
 // 核心是提供dom=api功能的 操作属性的更新
 
-import { createRenderer } from "@vue/reuntime-core";
+import { createRenderer } from "@vue/runtime-core";
 import { extend } from "@vue/shared";
 import { nodeOps } from "./nodeOps"; //对象
 import { patchProps } from "./patchProps"; //方法
@@ -28,3 +28,5 @@ export function createApp(rootComponent, rootProps = {}) {
 }
 // runtime-dom   ----runtime-core
 export { renderOptions };
+
+export * from "@vue/runtime-core";

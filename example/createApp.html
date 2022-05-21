@@ -11,7 +11,7 @@
     <script src="../node_modules/@vue/runtime-dom/dist/runtime-dom.global.js"></script>
     <script>
       console.log("2222", VueRuntimeDom);
-      const { createApp, h } = VueRuntimeDom;
+      const { createApp, h, reactive } = VueRuntimeDom;
       let app = {
         name: "app",
         setup() {
@@ -23,15 +23,20 @@
         },
         render(proxy) {
           console.log("render函数", proxy);
+          const state = reactive({ name: "张三" });
+          const fn = () => {
+            state.name = "李四";
+            state.name = "李四1";
+            state.name = "李四2";
+            state.name = "李四3";
+          };
           return h(
             "div",
             {
               style: { background: "green", width: "100px", height: "100px" },
-              onClick: () => {
-                alert("111");
-              },
+              onClick: fn,
             },
-            "hello-world"
+            state.name
           );
         },
       };
