@@ -30,3 +30,7 @@ export function createApp(rootComponent, rootProps = {}) {
 export { renderOptions };
 
 export * from "@vue/runtime-core";
+
+// m每个组件都是一个effect
+
+// 组件渲染流程 ===先父后子，执行顺序是深度优先

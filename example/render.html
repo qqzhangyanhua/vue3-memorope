@@ -15,14 +15,13 @@
       let app = {
         name: "app",
         setup() {
-          const flag = ref(true);
+          const flag = ref("false");
           console.log("setupzZ执行了");
           setTimeout(() => {
             console.log("延时器");
-            flag.value = false;
-          }, 3300);
-          return () =>
-            flag.value ? h("div", "hello-world") : h("h1", "hello-李四");
+            flag.value = "张安";
+          }, 3000);
+          return () => h("div", "hello-world" + flag.value);
         },
         // render(proxy) {
         //   console.log("render函数", proxy);

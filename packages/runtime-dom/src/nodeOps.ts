@@ -19,4 +19,5 @@ export const nodeOps = {
   setElementText: (el, text) => {
     el.textContent = text;
   },
+  nextSibling: (el) => el.nextSibling,
 };

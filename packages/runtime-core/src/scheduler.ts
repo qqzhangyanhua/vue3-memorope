@@ -1,5 +1,6 @@
 let queue = [];
 export function queueJob(job) {
+  console.log("执行队列==", queue);
   if (!queue.includes(job)) {
     queue.push(job);
     queueFlush();
